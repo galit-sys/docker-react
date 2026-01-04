@@ -13,6 +13,13 @@ jobs:
       - run: docker build -t galit-sys/react-test -f Dockerfile.dev .
       - run: docker run -e CI=true galit-sys/react-test npm test -- --coverage
 
+      - name: Configuration AWS Credencials
+        uses: aws-actions/configuration-aws-credentials@v4
+        with: 
+          aws-access-key-id: ${{secret.AWS_ACCESS_KEY}}
+          aws-secret-key: ${{secret.AWS_SECRET}}
+          aws-region: us-east-2 
+              
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v18
         with:
